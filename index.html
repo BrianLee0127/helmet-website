@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NOX | The Night Helmet</title>
+<meta name="description" content="NOX is a full-face helmet built for night riders. ECE 22.06 certified, night-tuned visor, delivered anywhere in Malaysia." />
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #050d0c;
+    --bg-raise: #0a1614;
+    --ink: #e4f1ec;
+    --ink-soft: #8fa9a1;
+    --accent: #2ee6c3;
+    --line: #16302b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "General Sans", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { font-family: "Cabinet Grotesk", system-ui, sans-serif; font-weight: 800; letter-spacing: -0.02em; line-height: 1.02; }
+  img, video { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  .wrap { max-width: 1400px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px); }
+
+  /* ---------- header ---------- */
+  header {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px; padding: 0 clamp(20px, 4vw, 56px);
+    background: linear-gradient(to bottom, rgba(5,13,12,0.85), rgba(5,13,12,0));
+  }
+  .brand { font-family: "Cabinet Grotesk", sans-serif; font-weight: 800; font-size: 22px; letter-spacing: 0.04em; }
+  .brand span { color: var(--accent); }
+  .btn {
+    display: inline-block; background: var(--accent); color: #04211b;
+    font-weight: 600; font-size: 14px; padding: 12px 22px;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s;
+    white-space: nowrap;
+  }
+  .btn:hover { background: #5cf0d4; }
+  .btn:active { transform: translateY(1px) scale(0.98); }
+
+  /* ---------- hero: plays once on load ---------- */
+  .hero-wrap { position: relative; }
+  .hero-sticky { position: relative; height: 100dvh; overflow: hidden; --mx: 50%; --my: 40%; --r: 0px; }
+  .hero-sticky video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-girl { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-sticky.revealing video {
+    -webkit-mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my), transparent 0 62%, black 100%);
+    mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my), transparent 0 62%, black 100%);
+  }
+  .hero-scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to top, rgba(5,13,12,0.9) 0%, rgba(5,13,12,0.25) 45%, rgba(5,13,12,0.35) 100%);
+  }
+  .hero-copy {
+    position: absolute; z-index: 2; left: clamp(20px, 4vw, 56px); right: clamp(20px, 4vw, 56px);
+    bottom: clamp(48px, 9vh, 96px); max-width: 640px;
+  }
+  .eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--accent); font-weight: 600; margin-bottom: 18px; }
+  .hero-copy h1 { font-size: clamp(52px, 8.5vw, 118px); }
+  .hero-copy p { color: var(--ink-soft); max-width: 42ch; margin: 20px 0 28px; }
+  .hero-copy .btn { font-size: 15px; padding: 15px 30px; }
+
+  .enter { opacity: 0; transform: translateY(28px); animation: enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .enter.d1 { animation-delay: 0.15s; } .enter.d2 { animation-delay: 0.3s; } .enter.d3 { animation-delay: 0.45s; }
+  @keyframes enter { to { opacity: 1; transform: none; } }
+
+  /* ---------- statement ---------- */
+  .statement { padding: clamp(110px, 16vh, 190px) 0; }
+  .statement h2 { font-size: clamp(34px, 5.2vw, 74px); max-width: 18ch; }
+  .statement h2 em { font-style: italic; color: var(--accent); line-height: 1.1; }
+
+  /* ---------- specs grid ---------- */
+  .specs { padding-bottom: clamp(90px, 12vh, 160px); }
+  .specs-head { margin-bottom: 48px; }
+  .specs-head h2 { font-size: clamp(30px, 3.6vw, 52px); }
+  .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .spec { background: var(--bg); padding: clamp(26px, 3vw, 44px); transition: background 0.3s; }
+  .spec:hover { background: var(--bg-raise); }
+  .spec strong { font-family: "Cabinet Grotesk", sans-serif; font-weight: 800; font-size: clamp(26px, 2.6vw, 40px); display: block; margin-bottom: 8px; }
+  .spec span { color: var(--ink-soft); font-size: 15px; max-width: 34ch; display: block; }
+
+  /* ---------- split ---------- */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 80px); align-items: center; padding-bottom: clamp(90px, 12vh, 160px); }
+  .split-img { border: 1px solid var(--line); position: relative; overflow: hidden; --mx: 50%; --my: 42%; --r: 0px; }
+  .split-img img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+  .split-img .layer-girl { position: absolute; inset: 0; height: 100%; }
+  .split-img .layer-helmet { position: relative; z-index: 1; }
+  .split-img.revealing .layer-helmet {
+    -webkit-mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my), transparent 0 62%, black 100%);
+    mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my), transparent 0 62%, black 100%);
+  }
+  .split-hint { color: var(--ink-soft); font-size: 13px; margin-top: 12px; }
+  .split-hint b { color: var(--accent); font-weight: 500; }
+  .split-copy h2 { font-size: clamp(30px, 3.6vw, 52px); margin-bottom: 20px; }
+  .split-copy p { color: var(--ink-soft); max-width: 46ch; margin-bottom: 16px; }
+
+  /* ---------- marquee ---------- */
+  .marquee { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; padding: 18px 0; white-space: nowrap; }
+  .marquee-track { display: inline-block; animation: marquee 26s linear infinite; }
+  .marquee-track span { font-family: "Cabinet Grotesk", sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); margin-right: 12px; }
+  .marquee-track span i { font-style: normal; color: var(--accent); margin-left: 12px; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ---------- lineup ---------- */
+  .lineup { padding: clamp(90px, 12vh, 160px) 0; }
+  .lineup h2 { font-size: clamp(30px, 3.6vw, 52px); margin-bottom: 8px; }
+  .lineup .lead { color: var(--ink-soft); max-width: 52ch; margin-bottom: 44px; }
+  .lineup-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(14px, 1.6vw, 24px); }
+  .product { border: 1px solid var(--line); transition: border-color 0.3s; }
+  .product:hover { border-color: var(--accent); }
+  .product-img { overflow: hidden; }
+  .product-img img { width: 100%; aspect-ratio: 1; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+  .product:hover .product-img img { transform: scale(1.05); }
+  .product-meta { padding: 16px 18px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .product-meta b { font-family: "Cabinet Grotesk", sans-serif; font-weight: 800; font-size: 17px; display: block; }
+  .product-meta span { color: var(--ink-soft); font-size: 13px; }
+  .product-meta em { font-style: normal; color: var(--accent); font-weight: 600; font-size: 14px; white-space: nowrap; }
+
+  /* ---------- ride scrub ---------- */
+  .ride-wrap { height: 250vh; position: relative; }
+  .ride-sticky { position: sticky; top: 0; height: 100dvh; overflow: hidden; }
+  .ride-sticky video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ride-scrim { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(5,13,12,0.85), rgba(5,13,12,0.05) 50%); }
+  .ride-fade { position: absolute; inset: 0; z-index: 3; background: var(--bg); opacity: 1; pointer-events: none; }
+  .ride-copy { position: absolute; z-index: 2; left: clamp(20px, 4vw, 56px); bottom: clamp(48px, 9vh, 96px); }
+  .ride-copy h2 { font-size: clamp(36px, 5vw, 70px); max-width: 14ch; }
+
+  /* ---------- fit ---------- */
+  .fit { padding: clamp(90px, 12vh, 160px) 0; }
+  .fit h2 { font-size: clamp(30px, 3.6vw, 52px); margin-bottom: 12px; }
+  .fit > .wrap > p { color: var(--ink-soft); max-width: 52ch; margin-bottom: 36px; }
+  .sizes { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+  .size {
+    scroll-snap-align: start; flex: 0 0 auto; border: 1px solid var(--line);
+    padding: 22px 30px; min-width: 132px; transition: border-color 0.3s;
+  }
+  .size:hover { border-color: var(--accent); }
+  .size b { font-family: "Cabinet Grotesk", sans-serif; font-size: 26px; font-weight: 800; display: block; }
+  .size span { color: var(--ink-soft); font-size: 13px; }
+
+  /* ---------- final CTA ---------- */
+  .final { position: relative; padding: clamp(120px, 18vh, 220px) 0; overflow: hidden; }
+  .final > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .final::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(5,13,12,0.92) 20%, rgba(5,13,12,0.45)); }
+  .final .wrap { position: relative; z-index: 1; }
+  .final .price { font-size: 13px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--accent); font-weight: 600; margin-bottom: 18px; }
+  .final h2 { font-size: clamp(40px, 6vw, 88px); max-width: 12ch; margin-bottom: 30px; }
+  .final p { color: var(--ink-soft); max-width: 46ch; margin-bottom: 34px; }
+  .final .btn { font-size: 16px; padding: 17px 36px; }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 0; }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  footer p { color: var(--ink-soft); font-size: 13px; }
+
+  /* ---------- reveal ---------- */
+  .rise { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+  .rise.in { opacity: 1; transform: none; }
+  .specs-grid .rise:nth-child(2) { transition-delay: 0.1s; }
+  .specs-grid .rise:nth-child(3) { transition-delay: 0.2s; }
+  .specs-grid .rise:nth-child(4) { transition-delay: 0.3s; }
+  .lineup-grid .rise:nth-child(2) { transition-delay: 0.1s; }
+  .lineup-grid .rise:nth-child(3) { transition-delay: 0.2s; }
+  .lineup-grid .rise:nth-child(4) { transition-delay: 0.3s; }
+  .sizes .rise:nth-child(2) { transition-delay: 0.08s; }
+  .sizes .rise:nth-child(3) { transition-delay: 0.16s; }
+  .sizes .rise:nth-child(4) { transition-delay: 0.24s; }
+  .sizes .rise:nth-child(5) { transition-delay: 0.32s; }
+
+  @media (max-width: 820px) {
+    .specs-grid { grid-template-columns: 1fr; }
+    .split { grid-template-columns: 1fr; }
+    .split-img img { aspect-ratio: 16 / 11; }
+    .lineup-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ride-wrap { height: auto; }
+    .ride-sticky { position: relative; }
+    .ride-fade { display: none; }
+    .enter { animation: none; opacity: 1; transform: none; }
+    .rise { opacity: 1; transform: none; transition: none; }
+    .marquee-track { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="brand" href="#top">NOX<span>.</span></a>
+  <a class="btn" href="https://wa.me/601169482866?text=Hi%2C%20I%20want%20to%20order%20the%20NOX%20helmet.%20Size%3A%20__">Order now</a>
+</header>
+
+<!-- HERO: scroll-scrubbed night ride -->
+<div class="hero-wrap" id="top">
+  <div class="hero-sticky">
+    <img class="hero-girl" src="girl.jpg" alt="" aria-hidden="true" />
+    <video id="hero-video" autoplay muted playsinline preload="auto" src="hero.mp4"></video>
+    <div class="hero-scrim"></div>
+    <div class="hero-copy">
+      <p class="eyebrow enter">Night Series 01</p>
+      <h1 class="enter d1">Own the night.</h1>
+      <p class="enter d2">A full-face helmet tuned for riding after dark. Certified, quiet, and built to see further.</p>
+      <a class="btn enter d3" href="https://wa.me/601169482866?text=Hi%2C%20I%20want%20to%20order%20the%20NOX%20helmet.%20Size%3A%20__">Order now</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATEMENT -->
+<section class="statement">
+  <div class="wrap">
+    <h2 class="rise">The city doesn't slow down after dark. <em>Neither should you.</em></h2>
+  </div>
+</section>
+
+<!-- SPECS -->
+<section class="specs">
+  <div class="wrap">
+    <div class="specs-head rise">
+      <p class="eyebrow">What you're wearing</p>
+      <h2>Engineered for the late shift.</h2>
+    </div>
+    <!-- spec values are sample/demo data -->
+    <div class="specs-grid">
+      <div class="spec rise"><strong>ECE 22.06</strong><span>Certified to the current European impact standard, tested at multiple speeds and angles.</span></div>
+      <div class="spec rise"><strong>1,380 g</strong><span>Lightweight composite shell. Less neck fatigue on long night runs.</span></div>
+      <div class="spec rise"><strong>Night visor</strong><span>Anti-glare, anti-fog coated visor with a wide field of view for low light.</span></div>
+      <div class="spec rise"><strong>Quiet liner</strong><span>Wind-tunnel shaped shell and sealed liner keep noise down at highway speed.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT -->
+<section>
+  <div class="wrap split">
+    <div class="split-img rise" id="visor">
+      <img class="layer-girl" src="girl.jpg" alt="Rider without the helmet, same night scene" loading="lazy" />
+      <img class="layer-helmet" src="still-helmet.jpg" alt="NOX full-face helmet close-up at night" loading="lazy" />
+    </div>
+    <div class="split-copy rise">
+      <h2>Built around the ride, not the showroom.</h2>
+      <p>Every line of the shell was shaped for real roads at real speed. No loud graphics, no gimmicks.</p>
+      <p>A low-profile silhouette that works on any bike.</p>
+      <p class="split-hint">Move your cursor over the <b>visor</b> to see who's riding.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marquee-track">
+    <span>ECE 22.06 certified<i>•</i></span><span>Pinlock-ready visor<i>•</i></span><span>Free delivery in Malaysia<i>•</i></span><span>7-day exchange<i>•</i></span>
+  </div>
+</div>
+
+<!-- LINEUP -->
+<section class="lineup">
+  <div class="wrap">
+    <h2 class="rise">The lineup.</h2>
+    <p class="lead rise">Four editions of the same certified shell. Pick your finish, message us the code.</p>
+    <!-- prices are sample/demo data -->
+    <div class="lineup-grid">
+      <div class="product rise">
+        <div class="product-img"><img src="nox-01.jpg" alt="NOX-01 Stealth helmet" loading="lazy" /></div>
+        <div class="product-meta"><div><b>NOX-01</b><span>Stealth</span></div><em>RM 389</em></div>
+      </div>
+      <div class="product rise">
+        <div class="product-img"><img src="nox-02.jpg" alt="NOX-02 Deep Tide helmet" loading="lazy" /></div>
+        <div class="product-meta"><div><b>NOX-02</b><span>Deep Tide</span></div><em>RM 389</em></div>
+      </div>
+      <div class="product rise">
+        <div class="product-img"><img src="nox-03.jpg" alt="NOX-03 Volt helmet" loading="lazy" /></div>
+        <div class="product-meta"><div><b>NOX-03</b><span>Volt</span></div><em>RM 419</em></div>
+      </div>
+      <div class="product rise">
+        <div class="product-img"><img src="nox-04.jpg" alt="NOX-04 Ghost helmet" loading="lazy" /></div>
+        <div class="product-meta"><div><b>NOX-04</b><span>Ghost</span></div><em>RM 419</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RIDE: second scroll-scrub -->
+<div class="ride-wrap" id="ride">
+  <div class="ride-sticky">
+    <video id="ride-video" data-scrub muted playsinline preload="auto" src="ride.mp4"></video>
+    <div class="ride-scrim"></div>
+    <div class="ride-copy">
+      <h2>See further. Ride later.</h2>
+    </div>
+    <div class="ride-fade"></div>
+  </div>
+</div>
+
+<!-- FIT -->
+<section class="fit">
+  <div class="wrap">
+    <h2 class="rise">Find your fit.</h2>
+    <p class="rise">Measure around your head just above the eyebrows, then match it below. Between sizes? Go smaller.</p>
+    <div class="sizes">
+      <div class="size rise"><b>S</b><span>55 – 56 cm</span></div>
+      <div class="size rise"><b>M</b><span>57 – 58 cm</span></div>
+      <div class="size rise"><b>L</b><span>59 – 60 cm</span></div>
+      <div class="size rise"><b>XL</b><span>61 – 62 cm</span></div>
+      <div class="size rise"><b>XXL</b><span>63 – 64 cm</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <img src="still-street.jpg" alt="Rider crossing a night street under the overpass" loading="lazy" />
+  <div class="wrap">
+    <p class="price rise">RM 389 · Free delivery</p>
+    <h2 class="rise">The night is waiting.</h2>
+    <p class="rise">Message us your size and we'll confirm stock and delivery within the hour.</p>
+    <a class="btn rise" href="https://wa.me/601169482866?text=Hi%2C%20I%20want%20to%20order%20the%20NOX%20helmet.%20Size%3A%20__">Order now</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>NOX Helmets</p>
+    <p>© 2026 NOX. Ride safe, ride certified.</p>
+  </div>
+</footer>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- hero: play once, hold last frame ---- */
+  const heroVideo = document.getElementById("hero-video");
+  if (reduceMotion) {
+    heroVideo.pause();
+  } else {
+    heroVideo.play().catch(() => {});
+  }
+
+  /* ---- blob preload: fetch scrub video fully so the browser can't evict it ---- */
+  document.querySelectorAll("video[data-scrub]").forEach((video) => {
+    fetch(video.src)
+      .then((r) => r.blob())
+      .then((b) => {
+        const t = video.currentTime;
+        video.src = URL.createObjectURL(b);
+        video.load();
+        video.addEventListener("loadeddata", () => { video.currentTime = t; }, { once: true });
+      })
+      .catch(() => {});
+  });
+
+  function wakeVideos() {
+    document.querySelectorAll("video[data-scrub]").forEach((v) => {
+      const p = v.play();
+      if (p) p.then(() => v.pause()).catch(() => {});
+    });
+  }
+
+  /* ---- scroll scrub with watchdog ---- */
+  const scrubWatch = [];
+  function setupScrub(wrap, video, onProgress) {
+    if (reduceMotion || !wrap || !video) return;
+    let duration = 0, current = 0, active = false, recovering = false, lastFrameTs = 0;
+    function syncDuration() { if (video.duration) duration = video.duration; }
+    video.addEventListener("loadedmetadata", syncDuration);
+    syncDuration();
+    function ensureReady() {
+      if (recovering || video.readyState >= 2) return;
+      recovering = true;
+      video.load();
+      video.addEventListener("loadeddata", () => { recovering = false; video.currentTime = current; }, { once: true });
+      setTimeout(() => { recovering = false; }, 1500);
+    }
+    function frame() {
+      if (!active) return;
+      const now = performance.now();
+      if (lastFrameTs && now - lastFrameTs > 4000) wakeVideos();
+      lastFrameTs = now;
+      ensureReady();
+      if (!duration) syncDuration();
+      const rect = wrap.getBoundingClientRect();
+      const total = rect.height - window.innerHeight;
+      const progress = Math.min(1, Math.max(0, -rect.top / total));
+      if (duration && !recovering) {
+        const target = progress * (duration - 0.05);
+        current += (target - current) * 0.18;
+        if (Math.abs(video.currentTime - current) > 0.01) video.currentTime = current;
+      }
+      if (onProgress) onProgress(progress);
+      requestAnimationFrame(frame);
+    }
+    new IntersectionObserver(([e]) => {
+      const wasActive = active;
+      active = e.isIntersecting;
+      if (active && !wasActive) requestAnimationFrame(frame);
+    }).observe(wrap);
+    scrubWatch.push(() => {
+      if (active && performance.now() - lastFrameTs > 1000) {
+        lastFrameTs = performance.now();
+        requestAnimationFrame(frame);
+      }
+    });
+  }
+
+  const rideFade = document.querySelector(".ride-fade");
+  setupScrub(document.querySelector(".ride-wrap"), document.getElementById("ride-video"), (p) => {
+    const fadeIn = Math.min(1, Math.max(0, 1 - p / 0.15));
+    const fadeOut = Math.min(1, Math.max(0, (p - 0.85) / 0.15));
+    rideFade.style.opacity = Math.max(fadeIn, fadeOut);
+  });
+
+  /* ---- decoder wake after idle gaps + dead-loop restart ---- */
+  let lastInteract = performance.now();
+  function onInteract() {
+    const now = performance.now();
+    if (now - lastInteract > 15000) wakeVideos();
+    lastInteract = now;
+    scrubWatch.forEach((check) => check());
+  }
+  ["touchstart", "pointerdown", "wheel", "keydown"].forEach((ev) =>
+    window.addEventListener(ev, onInteract, { passive: true })
+  );
+  function reprime() {
+    if (!document.hidden) { wakeVideos(); scrubWatch.forEach((check) => check()); }
+  }
+  document.addEventListener("visibilitychange", reprime);
+  window.addEventListener("pageshow", reprime);
+
+  /* ---- visor reveal: look inside the helmet ---- */
+  function attachVisorReveal(el, opts) {
+    if (!el) return;
+    const options = opts || {};
+    let vx = 0.5, vy = 0.42, tx = 0.5, ty = 0.42, vr = 0, tr = 0, raf = null;
+    function frame() {
+      vx += (tx - vx) * 0.16;
+      vy += (ty - vy) * 0.16;
+      vr += (tr - vr) * 0.14;
+      el.style.setProperty("--mx", (vx * 100).toFixed(2) + "%");
+      el.style.setProperty("--my", (vy * 100).toFixed(2) + "%");
+      el.style.setProperty("--r", vr.toFixed(1) + "px");
+      if (vr > 0.5 || tr > 0) {
+        raf = requestAnimationFrame(frame);
+      } else {
+        vr = 0;
+        el.classList.remove("revealing");
+        raf = null;
+      }
+    }
+    function start() { if (!raf) raf = requestAnimationFrame(frame); }
+    function close() { tr = 0; start(); }
+    el.addEventListener("pointermove", (e) => {
+      if (options.enabled && !options.enabled()) return;
+      const rect = el.getBoundingClientRect();
+      tx = (e.clientX - rect.left) / rect.width;
+      ty = (e.clientY - rect.top) / rect.height;
+      tr = Math.min(rect.width, rect.height) * (options.radius || 0.3);
+      el.classList.add("revealing");
+      start();
+    });
+    el.addEventListener("pointerleave", close);
+    document.addEventListener("mouseleave", close);
+    window.addEventListener("blur", close);
+  }
+
+  attachVisorReveal(document.getElementById("visor"));
+
+  let heroEnded = false;
+  heroVideo.addEventListener("ended", () => { heroEnded = true; });
+  attachVisorReveal(document.querySelector(".hero-sticky"), {
+    enabled: () => heroEnded,
+    radius: 0.22,
+  });
+
+  /* ---- reveal on scroll ---- */
+  const riseIO = new IntersectionObserver(
+    (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); riseIO.unobserve(e.target); } }),
+    { threshold: 0.18 }
+  );
+  document.querySelectorAll(".rise").forEach((el) => riseIO.observe(el));
+
+  /* ---- marquee: duplicate track for seamless loop ---- */
+  const track = document.getElementById("marquee-track");
+  track.innerHTML += track.innerHTML;
+</script>
+
+</body>
+</html>
