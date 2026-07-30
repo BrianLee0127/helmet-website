@@ -386,12 +386,19 @@
   const scrubWatch = [];
   function setupScrub(wrap, video, onProgress) {
     if (reduceMotion || !wrap || !video) return;
-    let duration = 0, current = 0, active = false, recovering = false, lastFrameTs = 0;
+    let duration = 0, current = 0, active = false, recovering = false, lastFrameTs = 0, lowSince = 0;
     function syncDuration() { if (video.duration) duration = video.duration; }
     video.addEventListener("loadedmetadata", syncDuration);
     syncDuration();
     function ensureReady() {
-      if (recovering || video.readyState >= 2) return;
+      if (recovering) return;
+      /* readyState dips below 2 for a moment on every seek - only a
+         sustained dip means the decoder actually lost its data */
+      if (video.readyState >= 2) { lowSince = 0; return; }
+      const now = performance.now();
+      if (!lowSince) { lowSince = now; return; }
+      if (now - lowSince < 800) return;
+      lowSince = 0;
       recovering = true;
       video.load();
       video.addEventListener("loadeddata", () => { recovering = false; video.currentTime = current; }, { once: true });
@@ -410,7 +417,8 @@
       if (duration && !recovering) {
         const target = progress * (duration - 0.05);
         current += (target - current) * 0.18;
-        if (Math.abs(video.currentTime - current) > 0.01) video.currentTime = current;
+        /* don't stack a new seek on an unfinished one - causes flicker */
+        if (!video.seeking && Math.abs(video.currentTime - current) > 0.01) video.currentTime = current;
       }
       if (onProgress) onProgress(progress);
       requestAnimationFrame(frame);
