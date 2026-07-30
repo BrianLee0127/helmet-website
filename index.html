@@ -29,6 +29,8 @@
   }
   h1, h2, h3 { font-family: "Cabinet Grotesk", system-ui, sans-serif; font-weight: 800; letter-spacing: -0.02em; line-height: 1.02; }
   img, video { display: block; max-width: 100%; }
+  video::-webkit-media-controls,
+  video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
   a { color: inherit; text-decoration: none; }
   ::selection { background: var(--accent); color: var(--bg); }
 
@@ -344,10 +346,20 @@
 
   /* ---- hero: play once, hold last frame ---- */
   const heroVideo = document.getElementById("hero-video");
+  heroVideo.muted = true; /* attribute alone is not enough in some browsers */
+  function tryPlayHero() {
+    if (reduceMotion || heroVideo.ended) return;
+    if (heroVideo.paused) heroVideo.play().catch(() => {});
+  }
   if (reduceMotion) {
     heroVideo.pause();
   } else {
-    heroVideo.play().catch(() => {});
+    tryPlayHero();
+    heroVideo.addEventListener("loadeddata", tryPlayHero);
+    /* autoplay blocked? start on the first user interaction instead */
+    ["pointerdown", "touchstart", "wheel", "keydown", "scroll"].forEach((ev) =>
+      window.addEventListener(ev, tryPlayHero, { passive: true })
+    );
   }
 
   /* ---- blob preload: fetch scrub video fully so the browser can't evict it ---- */
